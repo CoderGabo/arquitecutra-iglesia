@@ -81,3 +81,8 @@ button[data-type] {
   padding: 1px;
   margin: 1px;
 }
+
+.btn i {
+  pointer-events: none; /* Asegura que los clics en el icono no se traten de manera diferente */
+  font-size: 1rem; /* Aumenta el tamaño del icono */
+}

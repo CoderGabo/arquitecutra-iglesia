@@ -53,6 +53,7 @@ export class CMiembro {
 
   find(): void {
     const data = this.model.find(this.id);
+    console.log(data);
     if (!data) {
       this.view.setDataError('error');
       return;
@@ -81,6 +82,7 @@ export class CMiembro {
         return;
 
       const id = element.getAttribute('data-id') || 0;
+      console.log(id);
       if (element.getAttribute('data-type') == 'delete') {
         this.setId(Number(id));
         this.delete();
