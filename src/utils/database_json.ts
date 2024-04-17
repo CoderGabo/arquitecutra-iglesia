@@ -1,8 +1,4 @@
-/**
- * @author juanvladimir13
- * @mail juanvladimir13@gmail.com
- * @github https://www.github.com/juanvladimir13
- */
+
 export class DatabaseJson<T> {
   private tableName: string;
 
