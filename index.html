@@ -1,0 +1,506 @@
+<!doctype html>
+<html lang="es">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Arquitectura de software | Primer Parcial</title>
+  <link rel="stylesheet" href="https://unpkg.com/mvp.css@1.12/mvp.css">
+  <link 
+    href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" 
+    rel="stylesheet" 
+    integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" 
+    crossorigin="anonymous"
+  >
+  <link 
+    rel="stylesheet" 
+    href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css"
+  >
+  <style>
+    /* Estilos para el sidebar */
+    nav, .offcanvas{
+      background-color: #1e293b;
+    }
+    .navbar-toggler{
+      border: none;
+    }
+    .navbar-toggler:focus{
+      outline: none;
+      box-shadow: none;
+    }
+
+    @media(max-width: 768px){
+      .navbar-nav > li:hover{
+        background-color: #0dcaf0;
+      }
+    }
+</style>
+</head>
+
+<body>
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+      <button class="navbar-toggler" type="button" 
+        data-bs-toggle="offcanvas"
+        data-bs-target="#menuLateral"
+      >
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
+      <section class="offcanvas offcanvas-start" id="menuLateral" tabindex="1">
+        <div class="offcanvas-header" data-bs-theme="dark">
+          <h5 class="offcanvas-title text-light">Panel de Administración</h5>
+          <button 
+            class="btn-close" 
+            type="button" 
+            aria-label="close" 
+            data-bs-dismiss="offcanvas"
+          >
+          </button>
+        </div>
+        <div class="offcanvas-body d-flex flex-column justify-content-between px-0">
+          <ul class="navbar-nav fs-5 justify-content-evenly">
+            <li class="nav-item p-3 py-md-1">
+              <a href="/miembro" class="nav-link">Miembros</a>
+            </li>
+            <li class="nav-item p-3 py-md-1">
+              <a href="/parentesco" class="nav-link">Parentesco</a>
+            </li>
+            <li class="nav-item p-3 py-md-1">
+              <a href="/tipo-familia" class="nav-link">Administrar Tipo Familia</a>
+            </li>
+            <li class="nav-item p-3 py-md-1">
+              <a href="/ministerio" class="nav-link">Ministerios</a>
+            </li>
+            <li class="nav-item p-3 py-md-1">
+              <a href="/ministerio-miembro" class="nav-link">Miembros de Ministerios</a>
+            </li>
+            <li class="nav-item p-3 py-md-1">
+              <a href="/bautizo" class="nav-link">Certificados de Bautizo</a>
+            </li>
+            <li class="nav-item p-3 py-md-1">
+              <a href="/matrimonio" class="nav-link">Matrimonio</a>
+            </li>
+          </ul>
+        </div>
+      </section>
+
+  </nav>
+
+  <div id="app" class="container-fluid"></div>
+
+  <template id="miembro">
+    <div id="container">
+      <div class="row">
+        <div class="col-12 col-sm-10 offset-sm-1 col-md-8 offset-md-2 col-lg-6 offset-lg-3">
+          <form>
+            <div class="d-flex align-items-center justify-content-between">
+              <h4 class="m-0">Gestionar miembros</h4>
+              <div class="controls">
+                <button id="btnCreate" type="button" class="btn btn-dark">Crear</button>
+                <button id="btnSave" type="button" class="btn btn-dark">Guardar</button>
+              </div>
+            </div>
+            
+            <input id="id" type="number" value="0" hidden>
+            <p id="errors"></p>
+
+            <div class="row">
+              <div class="col-12 col-sm-6">
+                <label for="nombre">NOMBRE</label>
+                <input type="text" id="nombre" placeholder="nombre" required>
+              </div>
+              <div class="col-12 col-sm-6">
+                <label for="telefono">TELEFONO</label>
+                <input type="text" id="telefono" placeholder="telefono" required>
+              </div>
+              <div class="col-12 col-sm-6">
+                <label for="dirección">DIRECCIÓN</label>
+                <input type="text" id="dirección" placeholder="dirección" required>
+              </div>
+
+            </div>
+          </form>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-12 col-sm-10 offset-sm-1 col-md-8 offset-md-2 col-lg-6 offset-lg-3">
+          <table id="table" class="bg-secondary table table-striped">
+            <thead>
+              <tr>
+                <th>Nombre</th>
+                <th>Telefono</th>
+                <th>Dirección</th>
+                <th width="150px">Acciones</th>
+              </tr>
+            </thead>
+            <tbody></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </template>
+
+  <template id="parentesco">
+    <div id="container">
+      <div class="row">
+        <div class="col-12 col-sm-10 offset-sm-1 col-md-8 offset-md-2 col-lg-6 offset-lg-3">
+          <form>
+            <div class="d-flex align-items-center justify-content-between">
+              <h4 class="m-0">Gestionar Parentesco</h4>
+              <div class="controls">
+                <button id="btnCreate" type="button" class="btn btn-dark">Crear</button>
+                <button id="btnSave" type="button" class="btn btn-dark">Guardar</button>
+              </div>
+            </div>
+            
+            <p id="errors"></p>
+
+            <div class="row">
+              <div class="col-12 col-sm-6">
+                <label for="miembro">MIEMBRO</label>
+                <select id="miembro" required>
+                  <option value="0">Sin registro</option>
+                  <!-- Las opciones se llenarán dinámicamente con JS -->
+                </select>
+              </div>
+              <div class="col-12 col-sm-6">
+                <label for="tipo">TIPO DE PARENTESCO</label>
+                <select id="tipo" required>
+                  <option value="0">Sin registro</option>
+                  <!-- Las opciones se llenarán dinámicamente con JS -->
+                </select>
+              </div>
+              <div class="col-12 col-sm-6">
+                <label for="familiar">FAMILIAR</label>
+                <select id="familiar" required>
+                  <option value="0">Sin registro</option>
+                  <!-- Las opciones se llenarán dinámicamente con JS -->
+                </select>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-12 col-sm-10 offset-sm-1 col-md-8 offset-md-2 col-lg-6 offset-lg-3">
+          <form>
+            <div class="d-flex align-items-center justify-content-between">
+              <h3 class="m-0">Ver Familia</h3>
+              <div class="controls">
+                <button id="btnVerFamilia" type="button" class="btn btn-dark">Ver Familiares</button>
+              </div>
+            </div>
+            
+            <p id="errors"></p>
+
+            <div class="row">
+              <div class="col-12 col-sm-6">
+                <label for="miembro-familia">MIEMBRO</label>
+                <select id="miembro-familia" required>
+                  <option value="0">Sin registro</option>
+                  <!-- Las opciones se llenarán dinámicamente con JS -->
+                </select>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-12 col-sm-10 offset-sm-1 col-md-8 offset-md-2 col-lg-6 offset-lg-3">
+          <table id="table" class="bg-secondary table table-striped"> 
+            <thead>
+              <tr>
+                <th>Miembro</th>
+                <th>Parentesco</th>
+                <th>Familiar</th>
+                <th width="150px">Acciones</th>
+              </tr>
+            </thead>
+            <tbody></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </template>
+
+  <template id="tipo-familia">
+    <div id="container">
+      <div class="row">
+        <div class="col-12 col-sm-10 offset-sm-1 col-md-8 offset-md-2 col-lg-6 offset-lg-3">
+          <form>
+            <div class="d-flex align-items-center justify-content-between">
+              <h4 class="m-0">Gestionar Tipos Parientes</h4>
+              <div class="controls">
+                <button id="btnCreate" type="button" class="btn btn-dark">Crear</button>
+                <button id="btnSave" type="button" class="btn btn-dark">Guardar</button>
+              </div>
+            </div>
+            
+            <input id="id" type="number" value="0" hidden>
+            <p id="errors"></p>
+
+            <div class="row">
+              <div class="col-12 col-sm-6">
+                <label for="tipo">Tipo de Parentesco</label>
+                <input type="text" id="tipo" placeholder="tipo de parentesco" required>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-12 col-sm-10 offset-sm-1 col-md-8 offset-md-2 col-lg-6 offset-lg-3">
+          <table id="table" class="bg-secondary table table-striped">
+            <thead>
+              <tr>
+                <th>Tipo de Parentesco</th>
+                <th width="150px">Acciones</th>
+              </tr>
+            </thead>
+            <tbody></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </template>
+
+  <template id="ministerio">
+    <div id="container">
+      <div class="row">
+        <div class="col-12 col-sm-10 offset-sm-1 col-md-8 offset-md-2 col-lg-6 offset-lg-3">
+          <form>
+            <div class="d-flex align-items-center justify-content-between">
+              <h4 class="m-0">Gestionar Ministerios</h4>
+              <div class="controls">
+                <button id="btnCreate" type="button" class="btn btn-dark">Crear</button>
+                <button id="btnSave" type="button" class="btn btn-dark">Guardar</button>
+              </div>
+            </div>
+            
+            <input id="id" type="number" value="0" hidden>
+            <p id="errors"></p>
+
+            <div class="row">
+              <div class="col-12 col-sm-6">
+                <label for="nombre">NOMBRE</label>
+                <input type="text" id="nombre" placeholder="nombre" required>
+              </div>
+
+              <div class="col-12 col-sm-6">
+                <label for="tipo">TIPO</label>
+                <input type="text" id="tipo" placeholder="tipo" required>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-12 col-sm-10 offset-sm-1 col-md-8 offset-md-2 col-lg-6 offset-lg-3">
+          <table id="table" class="bg-secondary table table-striped">
+            <thead>
+              <tr>
+                <th>Nombre</th>
+                <th>Tipo</th>
+                <th width="150px">Acciones</th>
+              </tr>
+            </thead>
+            <tbody></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </template>
+
+  <template id="ministerio-miembro">
+    <div id="container">
+      <div class="row">
+        <div class="col-12 col-sm-10 offset-sm-1 col-md-8 offset-md-2 col-lg-6 offset-lg-3">
+          <form>
+            <div class="d-flex align-items-center justify-content-between">
+              <h4 class="m-0">Gestionar Miembros de Ministerios</h4>
+              <div class="controls">
+                <button id="btnCreate" type="button" class="btn btn-dark">Crear</button>
+                <button id="btnSave" type="button" class="btn btn-dark">Guardar</button>
+              </div>
+            </div>
+            
+            <input id="id" type="number" value="0" hidden>
+            <p id="errors"></p>
+
+            <div class="row">
+              <div class="col-12 col-sm-6">
+                <label for="miembro">MIEMBRO</label>
+                <select id="miembro" required>
+                  <option value="0">Sin registro</option>
+                  <!-- Las opciones se llenarán dinámicamente con JS -->
+                </select>
+              </div>
+              <div class="col-12 col-sm-6">
+                <label for="ministerio">Ministerio</label>
+                <select id="ministerio" required>
+                  <option value="0">Sin registro</option>
+                  <!-- Las opciones se llenarán dinámicamente con JS -->
+                </select>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-12 col-sm-10 offset-sm-1 col-md-8 offset-md-2 col-lg-6 offset-lg-3">
+          <table id="table" class="table table-striped bg-secondary">
+            <thead>
+              <tr>
+                <th>Miembro</th>
+                <th>Ministerio</th>
+                <th width="100px">Acciones</th>
+              </tr>
+            </thead>
+            <tbody></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </template>
+
+  <template id="bautizo">
+    <div id="container">
+      <div class="row">
+        <div class="col-12 col-sm-10 offset-sm-1 col-md-8 offset-md-2 col-lg-6 offset-lg-3">
+          <form>
+            <div class="d-flex align-items-center justify-content-between">
+              <h4 class="m-0">Gestionar Certificados de Bautizo</h4>
+              <div class="controls">
+                <button id="btnCreate" type="button" class="btn btn-dark">Crear</button>
+                <button id="btnSave" type="button" class="btn btn-dark">Guardar</button>
+              </div>
+            </div>
+            
+            <input id="id" type="number" value="0" hidden>
+            <p id="errors"></p>
+
+            <div class="row">
+              <div class="col-12 col-sm-6">
+                <label for="padrino">PADRINO</label>
+                <input type="text" id="padrino" placeholder="padrino" required>
+              </div>
+              <div class="col-12 col-sm-6">
+                <label for="madrina">MADRINA</label>
+                <input type="text" id="madrina" placeholder="madrina" required>
+              </div>
+              <div class="col-12 col-sm-6">
+                <label for="lugar">LUGAR</label>
+                <input type="text" id="lugar" placeholder="lugar" required>
+              </div>
+              <div class="col-12 col-sm-6">
+                <label for="fecha">FECHA</label>
+                <input type="date" id="fecha" placeholder="fecha" required>
+              </div>
+              <div class="col-12 col-sm-6">
+                <label for="miembro">MIEMBRO</label>
+                <select id="miembro" required>
+                  <option value="0">Sin registro</option>
+                  <!-- Las opciones se llenarán dinámicamente con JS -->
+                </select>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-12 col-sm-10 offset-sm-1 col-md-8 offset-md-2 col-lg-6 offset-lg-3">
+          <table id="table" class="table table-striped bg-secondary">
+            <thead>
+              <tr>
+                <th>Miembro</th>
+                <th>Padrino</th>
+                <th>Madrina</th>
+                <th>Lugar</th>
+                <th>Fecha</th>
+                <th width="100px">Acciones</th>
+              </tr>
+            </thead>
+            <tbody></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </template>
+
+  <template id="matrimonio">
+    <div id="container">
+      <div class="row">
+        <div class="col-12 col-sm-10 offset-sm-1 col-md-8 offset-md-2 col-lg-6 offset-lg-3">
+          <form>
+            <div class="d-flex align-items-center justify-content-between">
+              <h4 class="m-0">Gestionar Certificados de Matrimonio</h4>
+              <div class="controls">
+                <button id="btnCreate" type="button" class="btn btn-dark">Crear</button>
+                <button id="btnSave" type="button" class="btn btn-dark">Guardar</button>
+              </div>
+            </div>
+            
+            <input id="id" type="number" value="0" hidden>
+            <p id="errors"></p>
+
+            <div class="row">
+              <div class="col-12 col-sm-6">
+                <label for="padrino">PADRINO</label>
+                <input type="text" id="padrino" placeholder="padrino" required>
+              </div>
+              <div class="col-12 col-sm-6">
+                <label for="madrina">MADRINA</label>
+                <input type="text" id="madrina" placeholder="madrina" required>
+              </div>
+              <div class="col-12 col-sm-6">
+                <label for="lugar">LUGAR</label>
+                <input type="text" id="lugar" placeholder="lugar" required>
+              </div>
+              <div class="col-12 col-sm-6">
+                <label for="fecha">FECHA</label>
+                <input type="date" id="fecha" placeholder="fecha" required>
+              </div>
+              <div class="col-12 col-sm-6">
+                <label for="esposo">ESPOSO</label>
+                <select id="esposo" required>
+                  <option value="0">Sin registro</option>
+                  <!-- Las opciones se llenarán dinámicamente con JS -->
+                </select>
+              </div>
+              <div class="col-12 col-sm-6">
+                <label for="esposa">ESPOSA</label>
+                <select id="esposa" required>
+                  <option value="0">Sin registro</option>
+                  <!-- Las opciones se llenarán dinámicamente con JS -->
+                </select>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-12 col-sm-10 offset-sm-1 col-md-8 offset-md-2 col-lg-6 offset-lg-3">
+          <table id="table" class="table table-striped bg-secondary">
+            <thead>
+              <tr>
+                <th>Esposo</th>
+                <th>Esposa</th>
+                <th>Padrino</th>
+                <th>Madrina</th>
+                <th>Lugar</th>
+                <th>Fecha</th>
+                <th width="100px">Acciones</th>
+              </tr>
+            </thead>
+            <tbody></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </template>
+
+  <script type="module" src="/src/main.ts"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+</body>
+
+</html>
