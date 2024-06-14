@@ -38,7 +38,7 @@
 </head>
 
 <body>
-  <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark" style="margin-bottom: 20px;">
       <button class="navbar-toggler" type="button" 
         data-bs-toggle="offcanvas"
         data-bs-target="#menuLateral"
@@ -122,19 +122,27 @@
           </form>
         </div>
       </div>
-      <div class="row">
+      <div class="row" style="margin-top: 30px;">
         <div class="col-12 col-sm-10 offset-sm-1 col-md-8 offset-md-2 col-lg-6 offset-lg-3">
-          <table id="table" class="bg-secondary table table-striped">
-            <thead>
-              <tr>
-                <th>Nombre</th>
-                <th>Telefono</th>
-                <th>Dirección</th>
-                <th width="150px">Acciones</th>
-              </tr>
-            </thead>
-            <tbody></tbody>
-          </table>
+          <div class="table-responsive" style="max-height: 350px; overflow-y: auto;">
+            <table id="table" class="bg-secondary table table-striped">
+              <thead>
+                <tr>
+                  <th>
+                    Nombre
+                  </th>
+                  <th>
+                    Teléfono
+                  </th>
+                  <th>
+                    Dirección
+                  </th>
+                  <th width="150px">Acciones</th>
+                </tr>
+              </thead>
+              <tbody></tbody>
+            </table>
+          </div>
         </div>
       </div>
     </div>
@@ -274,6 +282,8 @@
               <div class="controls">
                 <button id="btnCreate" type="button" class="btn btn-dark">Crear</button>
                 <button id="btnSave" type="button" class="btn btn-dark">Guardar</button>
+                <button id="btnUndo" type="button" class="btn btn-warning" style="margin-left: 10px;">Deshacer</button>
+                <button id="btnRedo" type="button" class="btn btn-success" style="margin-left: 10px;">Rehacer</button>
               </div>
             </div>
             
@@ -408,20 +418,22 @@
         </div>
       </div>
       <div class="row">
-        <div class="col-12 col-sm-10 offset-sm-1 col-md-8 offset-md-2 col-lg-6 offset-lg-3">
-          <table id="table" class="table table-striped bg-secondary">
-            <thead>
-              <tr>
-                <th>Miembro</th>
-                <th>Padrino</th>
-                <th>Madrina</th>
-                <th>Lugar</th>
-                <th>Fecha</th>
-                <th width="100px">Acciones</th>
-              </tr>
-            </thead>
-            <tbody></tbody>
-          </table>
+        <div class="col-12 col-sm-10 offset-sm-1 col-md-8 offset-md-2 col-lg-8 offset-lg-2"> <!-- Ajusta el ancho y el offset para centrar el table -->
+          <div class="table-responsive overflow-auto">
+            <table id="table" class="table table-striped bg-secondary" style="max-width: 100%;">
+              <thead>
+                <tr>
+                  <th>Miembro</th>
+                  <th>Padrino</th>
+                  <th>Madrina</th>
+                  <th>Lugar</th>
+                  <th>Fecha</th>
+                  <th width="100px">Acciones</th>
+                </tr>
+              </thead>
+              <tbody></tbody>
+            </table>
+          </div>
         </div>
       </div>
     </div>
@@ -479,21 +491,23 @@
         </div>
       </div>
       <div class="row">
-        <div class="col-12 col-sm-10 offset-sm-1 col-md-8 offset-md-2 col-lg-6 offset-lg-3">
-          <table id="table" class="table table-striped bg-secondary">
-            <thead>
-              <tr>
-                <th>Esposo</th>
-                <th>Esposa</th>
-                <th>Padrino</th>
-                <th>Madrina</th>
-                <th>Lugar</th>
-                <th>Fecha</th>
-                <th width="100px">Acciones</th>
-              </tr>
-            </thead>
-            <tbody></tbody>
-          </table>
+        <div class="col-12 col-sm-10 offset-sm-1 col-md-8 offset-md-2 col-lg-8 offset-lg-2">
+          <div class="table-responsive overflow-auto">
+            <table id="table" class="table table-striped bg-secondary" style="max-width: 100%;">
+              <thead>
+                <tr>
+                  <th>Esposo</th>
+                  <th>Esposa</th>
+                  <th>Padrino</th>
+                  <th>Madrina</th>
+                  <th>Lugar</th>
+                  <th>Fecha</th>
+                  <th width="100px">Acciones</th>
+                </tr>
+              </thead>
+              <tbody></tbody>
+            </table>
+          </div>
         </div>
       </div>
     </div>

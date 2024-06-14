@@ -2,6 +2,9 @@
 import { MBautizo } from "../models//MBautizo";
 import { MMiembro } from '../models/MMiembro';
 import { VBautizo } from "../views/VBautizo";
+import { DescargarCertificado } from "../patronStrategy/DescargarCertificado";
+import { PDF } from "../patronStrategy/PDF";
+import { Imagen } from "../patronStrategy/Imagen";
 
 export class CBautizo {
   private id: number;
@@ -9,11 +12,13 @@ export class CBautizo {
   private view: VBautizo;
 
   private modelMiembro: MMiembro;
+  private descargarCertificado: DescargarCertificado;
 
   constructor() {
     this.model = new MBautizo();
     this.view = new VBautizo();
     this.modelMiembro = new MMiembro();
+    this.descargarCertificado = new DescargarCertificado();
 
     this.id = 0;
 
@@ -87,6 +92,27 @@ export class CBautizo {
     this.view.setTable(rowsWithDetails);
   }
 
+  imprimirCertificado(tipo: string): void {
+    const data = this.model.find(this.id);
+
+    if (!data) {
+      this.view.setDataError('No se encontró el certificado');
+      return;
+    }
+
+    const dataMiembro = this.modelMiembro.find(data.id_miembro);
+    const nombre = dataMiembro?.nombre;
+
+    const dataConNombre = { ...data, miembroNombre: nombre };
+
+    if (tipo === 'pdf') {
+      this.descargarCertificado.setStrategy(new PDF());
+    } else if (tipo === 'imagen') {
+      this.descargarCertificado.setStrategy(new Imagen());
+    }
+    this.descargarCertificado.descargarCertificado(dataConNombre);
+  }
+
   _initListener(): void {
     this.view.btnCreate.addEventListener('click', () => {
       this.create();
@@ -111,6 +137,16 @@ export class CBautizo {
       if (element.getAttribute('data-type') == 'view') {
         this.setId(Number(id));
         this.find();
+      }
+
+      if (element.getAttribute('data-type') == 'print-pdf') {
+        this.setId(Number(id));
+        this.imprimirCertificado('pdf');
+      }
+
+      if (element.getAttribute('data-type') == 'print-img') {
+        this.setId(Number(id));
+        this.imprimirCertificado('imagen');
       }
     });
   }

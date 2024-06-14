@@ -42,6 +42,10 @@ export class MMinisterio {
     return this.database.find(id);
   }
 
+  findByName(name: string): Ministerio | undefined {
+    return this.database.findByName(name);
+  }
+
   list(): Ministerio[] {
     return this.database.list();
   }

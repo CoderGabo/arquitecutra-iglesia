@@ -4,6 +4,8 @@ export class VMinisterio {
 
   public btnSave: HTMLButtonElement;
   public btnCreate: HTMLButtonElement;
+  public btnUndo: HTMLButtonElement;
+  public btnRedo: HTMLButtonElement;
 
   private inputId: HTMLInputElement;
   private inputNombre: HTMLInputElement;
@@ -19,6 +21,8 @@ export class VMinisterio {
 
     this.btnCreate = this.component.querySelector('#btnCreate') as HTMLButtonElement;
     this.btnSave = this.component.querySelector('#btnSave') as HTMLButtonElement;
+    this.btnUndo = this.component.querySelector('#btnUndo') as HTMLButtonElement;
+    this.btnRedo = this.component.querySelector('#btnRedo') as HTMLButtonElement;
 
     this.inputId = this.component.querySelector('#id') as HTMLInputElement;
     this.inputNombre = this.component.querySelector('#nombre') as HTMLInputElement;

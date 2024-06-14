@@ -100,6 +100,8 @@ export class VBautizo {
         <button data-id="${row.id}" data-type="delete" class="btn btn-outline-danger">
           <i class="bi bi-trash"></i>
         </button>
+        <button data-id="${row.id}" data-type="print-pdf">Imprimir PDF</button>
+        <button data-id="${row.id}" data-type="print-img">Imprimir Imagen</button>
       </td>
       </tr>`
     });

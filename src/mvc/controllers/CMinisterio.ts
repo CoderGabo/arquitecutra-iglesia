@@ -1,21 +1,25 @@
-
 import { MMinisterio } from "../models/MMinisterio";
 import { VMinisterio } from '../views/VMinisterio';
-
+import { EliminarMinisterioComando } from '../patronCommand/EliminarMinisterioComando';
+import { GuardarMinisterioComando } from '../patronCommand/GuardarMinisterioComando';
+import { Invocador } from '../patronCommand/Invocador';
 
 export class CMinisterio {
   private id: number;
   private model: MMinisterio;
   private view: VMinisterio;
+  private invocador: Invocador;
 
   constructor() {
     this.model = new MMinisterio();
     this.view = new VMinisterio();
+    this.invocador = new Invocador();
 
     this.id = 0;
 
     this._initListener();
   }
+
   setId(id: number): void {
     this.id = id;
   }
@@ -23,31 +27,33 @@ export class CMinisterio {
   create(): HTMLElement {
     this.list();
     this.view.clearData();
-
     return this.view.getHTML();
   }
 
   save(): HTMLElement {
     const data = this.view.getData();
-    this.model.setData(data);
-    const model = this.model.save();
-
-    if (!model) {
-      this.view.setDataError('Error');
-    } else {
-      this.view.setData(model);
-    }
+    const saveCommand = new GuardarMinisterioComando(this.model, data);
+    this.invocador.executeComando(saveCommand);
 
     this.list();
     return this.view.getHTML();
   }
 
   delete(): void {
-    const state = this.model.delete(this.id);
-    if (!state)
-      this.view.setDataError('Error');
+    const deleteCommand = new EliminarMinisterioComando(this.model, this.id);
+    this.invocador.executeComando(deleteCommand);
 
     this.view.clearData();
+    this.list();
+  }
+
+  undo(): void {
+    this.invocador.undo();
+    this.list();
+  }
+
+  redo(): void {
+    this.invocador.redo();
     this.list();
   }
 
@@ -58,7 +64,7 @@ export class CMinisterio {
       return;
     }
 
-    this.view.setData(data!);
+    this.view.setData(data);
   }
 
   list(): void {
@@ -75,6 +81,15 @@ export class CMinisterio {
       this.save();
     });
 
+    this.view.btnUndo.addEventListener('click', () => {
+      this.undo();
+    });
+
+    this.view.btnRedo.addEventListener('click', () => {
+      this.redo();
+    });
+
+
     this.view.outputTable.addEventListener('click', (evt) => {
       const element = evt.target as HTMLElement;
       if (element.nodeName != 'BUTTON')
@@ -85,7 +100,6 @@ export class CMinisterio {
         this.setId(Number(id));
         this.delete();
       }
-
 
       if (element.getAttribute('data-type') == 'view') {
         this.setId(Number(id));
